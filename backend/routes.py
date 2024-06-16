@@ -46,11 +46,9 @@ def get_pictures():
 def get_picture_by_id(id):
     
     for dict in data:
-         url_id = dict["id"]
-         if url_id == id:
-            url_picture =
-        
-    return jsonify(picture),200
+        if int(dict['id']) == id:
+            return jsonify({'picture_url': dict['pic_url']}),200
+    return jsonify({"error": "picture not found"}) ,404   
 
 
 ######################################################################
