@@ -46,9 +46,11 @@ def get_pictures():
 def get_picture_by_id(id):
     
     for dict in data:
-        if int(dict['id']) == id:
-            return jsonify({'picture_url': dict['pic_url']}),200
-    return jsonify({"error": "picture not found"}) ,404   
+        if   dict['id'] == id:
+            return jsonify(dict),200
+    return jsonify({"error" : "picture not found"}),404
+    
+
 
 
 ######################################################################
@@ -56,7 +58,29 @@ def get_picture_by_id(id):
 ######################################################################
 @app.route("/picture", methods=["POST"])
 def create_picture():
-    pass
+    id = request.form['id']
+    pic_url = request.form['pic_url']
+    event_country = request.form['event_country']
+    event_state = request.form['event_state']
+    event_city = request.form['event_city']
+    event_date = request.form['event_date']
+    
+
+    for dict in data:
+        if  dict['id'] == id:
+            return jsonify({"Message": "picture with id {dict['id']} already present"}),302
+            break
+        else:
+            data.append({'id':id, 
+            'pic_url':pic_url,
+            'event_country':event_country,
+            'event_state': event_state,
+            'event_city' : event_city,
+            'event_date' : event_date
+             })
+            return jsonify({"message": "Picture created successfully"}), 201
+    
+   
 
 ######################################################################
 # UPDATE A PICTURE
