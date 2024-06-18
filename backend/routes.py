@@ -56,32 +56,38 @@ def get_picture_by_id(id):
 ######################################################################
 # CREATE A PICTURE
 ######################################################################
-@app.route("/picture/", methods=["POST"])
+@app.route("/picture", methods=["POST"])
 def create_picture():
-    id = request.form['id']
-    pic_url = request.form['pic_url']
-    event_country = request.form['event_country']
-    event_state = request.form['event_state']
-    event_city = request.form['event_city']
-    event_date = request.form['event_date']
-    
+    picture = request.get_json()
+    id = picture['id']
+    pic_url = picture['pic_url']
+    event_country = picture['event_country']
+    event_state = picture['event_state']
+    event_city = picture['event_city']
+    event_date = picture['event_date']
 
     for pic in data:
-        if  pic['id'] == id:
-            return jsonify({"Message": "picture with id {id} already present"}),302
-            
-        
-    new_picture={
-        'id':id, 
-        'pic_url':pic_url,
-        'event_country':event_country,
-        'event_state': event_state,
-        'event_city' : event_city,
-        'event_date' : event_date
-        }
-    data.append(new_picture)
+        if pic['id'] == id:
+            return jsonify({"Message": "picture with id {picture['id']} already present"}),302
     
-    return jsonify({"message": "Picture created successfully"}), 201
+    new_picture = {
+        "id" : id,
+        "pic_url" : pic_url,
+        "event_country" : event_country,
+        "event_state" : event_state,
+        "event_city" : event_city,
+        "event_date" : event_date
+    }
+
+    data.append(new_picture)
+
+    return jsonify({"message" : "Picture added successfully"}),201
+
+
+        
+       
+        
+        
     
    
 

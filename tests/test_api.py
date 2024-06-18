@@ -1,4 +1,6 @@
-import json
+import json,pytest
+
+
 
 def test_health(client):
     res = client.get("/health")
@@ -49,7 +51,7 @@ def test_post_picture(picture,client):
     assert res.status_code == 201
     assert res.json['id'] == picture['id']
     res = client.get("/count")
-    assert res.status_code == 201
+    assert res.status_code == 200
     assert res.json['length'] == 11
 
 def test_post_picture_duplicate(picture, client):
