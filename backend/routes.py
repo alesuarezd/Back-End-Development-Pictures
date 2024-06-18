@@ -45,9 +45,9 @@ def get_pictures():
 @app.route("/picture/<int:id>", methods=["GET"])
 def get_picture_by_id(id):
     
-    for dict in data:
-        if   dict['id'] == id:
-            return jsonify(dict),200
+    for pic in data:
+        if   pic['id'] == id:
+            return jsonify(pic),200
     return jsonify({"error" : "picture not found"}),404
     
 
@@ -56,7 +56,7 @@ def get_picture_by_id(id):
 ######################################################################
 # CREATE A PICTURE
 ######################################################################
-@app.route("/picture", methods=["POST"])
+@app.route("/picture/", methods=["POST"])
 def create_picture():
     id = request.form['id']
     pic_url = request.form['pic_url']
@@ -66,19 +66,22 @@ def create_picture():
     event_date = request.form['event_date']
     
 
-    for dict in data:
-        if  dict['id'] == id:
-            return jsonify({"Message": "picture with id {dict['id']} already present"}),302
-            break
-        else:
-            data.append({'id':id, 
-            'pic_url':pic_url,
-            'event_country':event_country,
-            'event_state': event_state,
-            'event_city' : event_city,
-            'event_date' : event_date
-             })
-            return jsonify({"message": "Picture created successfully"}), 201
+    for pic in data:
+        if  pic['id'] == id:
+            return jsonify({"Message": "picture with id {id} already present"}),302
+            
+        
+    new_picture={
+        'id':id, 
+        'pic_url':pic_url,
+        'event_country':event_country,
+        'event_state': event_state,
+        'event_city' : event_city,
+        'event_date' : event_date
+        }
+    data.append(new_picture)
+    
+    return jsonify({"message": "Picture created successfully"}), 201
     
    
 
