@@ -98,10 +98,13 @@ def create_picture():
 
 @app.route("/picture/<int:id>", methods=["PUT"])
 def update_picture(id):
-    updatedPicture = request.get_json()
-    for dict in data:
-        if updatedPicture[id] == dict[id]:
-            dict=updatedPicture
+    #getting data
+    updated_picture = request.json
+    #iterate data to check if the updated_picture already exists
+    for index,picture in enumerate( data):
+        if picture["id"] == id:
+            data[index] = updated_picture
+            return picture, 201
     return jsonify({"message": "picture not found"}),404
 
 ######################################################################
@@ -109,4 +112,14 @@ def update_picture(id):
 ######################################################################
 @app.route("/picture/<int:id>", methods=["DELETE"])
 def delete_picture(id):
-    pass
+
+    
+    for index, picture in enumerate(data):
+        if picture["id"] == id:
+            data.remove(data[index])
+            return "", 204
+    
+    return jsonify({"message": "picture not found"}),404
+
+
+   
