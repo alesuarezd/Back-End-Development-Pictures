@@ -1,4 +1,6 @@
-import json
+import json,pytest
+
+
 
 def test_health(client):
     res = client.get("/health")
@@ -42,7 +44,7 @@ def test_pictures_json_is_not_empty(client):
     assert len(res.json) > 0
 
 
-def test_post_picture(picture, client):
+def test_post_picture(picture,client):
     # create a brand new picture to upload
     res = client.post("/picture", data=json.dumps(picture),
                       content_type="application/json")
